@@ -41,7 +41,7 @@ vagrantfile:
         synced_folder:
             vflsf_msqof2af60x1:
                 create: true
-                source: ./var_www
+                source: ./share/var_www
                 target: /var/www
                 sync_type: default
                 smb:
@@ -60,8 +60,8 @@ vagrantfile:
                 owner: www-data
                 group: www-data
             vflsf_k45yq959ff8i:
-                source: .
-                target: /vagrant
+                source: ./share/db_dumps
+                target: /var/db_dumps
                 sync_type: default
                 smb:
                     smb_host: ''
