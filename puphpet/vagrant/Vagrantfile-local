@@ -27,6 +27,7 @@ Vagrant.configure('2') do |config|
     config.vm.post_up_message = "#{data['vm']['post_up_message']}"
   end
 
+  # vagrant-hostmanager plugin
   if Vagrant.has_plugin?('vagrant-hostmanager')
     hosts = Array.new()
 
@@ -69,6 +70,30 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  # vagrant-hostsupdater plugin
+  if Vagrant.has_plugin?('vagrant-hostsupdater')
+    config.hostsupdater.remove_on_suspend = true
+    
+    aliases = Array.new()
+    if !configValues['apache']['install'].nil? &&
+        configValues['apache']['install'].to_i == 1 &&
+        configValues['apache']['vhosts'].is_a?(Hash)
+      configValues['apache']['vhosts'].each do |i, vhost|
+        aliases.push(vhost['servername'])
+        if vhost['serveraliases'].is_a?(Array)
+          vhost['serveraliases'].each do |vhost_alias|
+            aliases.push(vhost_alias)
+          end
+        end
+      end
+    end
+
+    if aliases.any?
+      config.hostsupdater.aliases = aliases
+    end
+  end
+  
+  # vagrant-cachier plugin
   if Vagrant.has_plugin?('vagrant-cachier')
     config.cache.scope = :box
   end
@@ -103,7 +128,7 @@ Vagrant.configure('2') do |config|
         config.vm.synced_folder "#{folder['source']}", "#{folder['target']}", id: "#{i}",
           group: sync_group, owner: sync_owner, mount_options: ['share']
       else
-        config.vm.synced_folder "#{folder['source']}", "#{folder['target']}", id: "#{i}",
+        config.vm.synced_folder "#{folder['source']}", "#{folder['target']}", id: "#{i}", create: true,
           group: sync_group, owner: sync_owner, mount_options: ['dmode=775', 'fmode=774']
       end
     end
@@ -207,6 +232,11 @@ Vagrant.configure('2') do |config|
 
   ssh_username = !data['ssh']['username'].nil? ? data['ssh']['username'] : 'vagrant'
 
+  # setup folders
+  #config.vm.provision 'shell' do |s|
+  #  s.path = 'puphpet/shell/synced-folders-setup.sh'
+  #  s.args = '/vagrant/puphpet'
+  #end
   config.vm.provision 'shell' do |s|
     s.path = 'puphpet/shell/initial-setup.sh'
     s.args = '/vagrant/puphpet'
