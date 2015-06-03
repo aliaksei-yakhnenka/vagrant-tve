@@ -17,8 +17,11 @@ vagrantfile:
                     host: '8088'
                     guest: '80'
                 vflnp_g3d6mjkjoltx:
-                    host: '9099'
-                    guest: '9009'
+                    host: '19000'
+                    guest: '9000'
+                vflnp_g4v873n498t3:
+                    host: '13306'
+                    guest: '3306'
         post_up_message: ''
         provider:
             virtualbox:
