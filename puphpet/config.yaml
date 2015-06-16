@@ -81,18 +81,20 @@ vagrantfile:
         usable_port_range:
             start: 10200
             stop: 10500
-    hostsupdater:
-        remove_on_suspend: true
-        aliases:
-            - local.tve.nbcuni.com
-            - local.tve.telemundo.nbcuni.com
-            - local.tve.syfy.nbcuni.com
-            - local.mvpd-admin.nbcuni.com
+    # hostsupdater:
+    #     remove_on_suspend: true
+    #     aliases:
+    #         - local.tve.nbcuni.com
+    #         - local.tve.telemundo.nbcuni.com
+    #         - local.tve.syfy.nbcuni.com
+    #         - local.mvpd-admin.nbcuni.com
+    #         - local.tve.usa.nbcuni.com
     ssh:
         host: null
         port: null
         private_key_path: null
         username: vagrant
+        password: vagrant
         guest_port: null
         keep_alive: true
         forward_agent: false
@@ -186,8 +188,17 @@ apache:
         localtvenbcunicom:
             servername: local.tve.nbcuni.com
             serveraliases:
-                - local.tve.telemundo.nbcuni.com
+                - local.tve.bravo.nbcuni.com
+                - local.tve.cnbc.nbcuni.com
+                - local.tve.eonline.nbcuni.com
+                - local.tve.esquire.nbcuni.com
+                - local.tve.mun2.nbcuni.com
+                - local.tve.nbcnews.nbcuni.com
+                - local.tve.oxygen.nbcuni.com
+                - local.tve.sprout.nbcuni.com
                 - local.tve.syfy.nbcuni.com
+                - local.tve.telemundo.nbcuni.com
+                - local.tve.usa.nbcuni.com
             docroot: /var/www/html/tve/docroot
             port: '80'
             setenv:
@@ -298,12 +309,13 @@ xdebug:
     install: '1'
     settings:
         xdebug.default_enable: '1'
-        xdebug.remote_autostart: '1'
+        xdebug.remote_autostart: '0'
         xdebug.remote_enable: '1'
         xdebug.remote_handler: 'dbgp'
         xdebug.remote_port: '10000'
         xdebug.remote_host: '10.0.2.2'
         xdebug.idekey: 'netbeans-xdebug'
+        xdebug.max_nesting_level: '5000'
 blackfire:
     install: '0'
     settings:
