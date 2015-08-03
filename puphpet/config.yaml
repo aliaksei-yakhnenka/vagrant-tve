@@ -1,18 +1,16 @@
 vagrantfile:
     target: local
     vm:
+        boot_timeout: 90
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
-        hostname: local.tve.vagrant
+        hostname: local.vagrant
         memory: '512'
         cpus: '1'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.168.168
             forwarded_port:
-                vflnp_wzxiocdoy3tt:
-                    host: '2022'
-                    guest: '22'
                 vflnp_zyfwshhk5s8z:
                     host: '8088'
                     guest: '80'
@@ -24,7 +22,7 @@ vagrantfile:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                showgui: '0'
+                showgui: 0
             vmware:
                 numvcpus: 1
             parallels:
@@ -39,10 +37,10 @@ vagrantfile:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            vflsf_msqof2af60x1:
+            varwwwhtml:
                 create: true
-                source: ./share/var_www
-                target: /var/www
+                source: ./hosts
+                target: /var/www/html
                 sync_type: default
                 smb:
                     smb_host: ''
@@ -59,9 +57,9 @@ vagrantfile:
                     auto: 'true'
                 owner: www-data
                 group: www-data
-            vflsf_k45yq959ff8i:
-                source: ./share/db_dumps
-                target: /var/db_dumps
+            vardbs:
+                source: ./dbs
+                target: /var/dbs
                 sync_type: default
                 smb:
                     smb_host: ''
@@ -81,22 +79,15 @@ vagrantfile:
         usable_port_range:
             start: 10200
             stop: 10500
-    # hostsupdater:
-    #     remove_on_suspend: true
-    #     aliases:
-    #         - local.tve.nbcuni.com
-    #         - local.tve.telemundo.nbcuni.com
-    #         - local.tve.syfy.nbcuni.com
-    #         - local.mvpd-admin.nbcuni.com
-    #         - local.tve.usa.nbcuni.com
     ssh:
         host: null
         port: null
         private_key_path: null
         username: vagrant
+        password: null
         guest_port: null
         keep_alive: true
-        forward_agent: false
+        forward_agent: true
         forward_x11: false
         shell: 'bash -l'
     vagrant:
@@ -230,6 +221,7 @@ apache:
                             custom_fragment: ''
                             provider: filesmatch
                     provider: directory
+
         localmvpdadminnbcunicom:
               servername: local.mvpd-admin.nbcuni.com
               serveraliases:
@@ -250,6 +242,42 @@ apache:
               directories:
                   avd_p7m69gd1qe8d:
                       path: /var/www/html/mvpd/docroot
+                      options:
+                          - Indexes
+                          - FollowSymlinks
+                          - MultiViews
+                      allow_override:
+                          - All
+                      require:
+                          - 'all granted'
+                      custom_fragment: ''
+                      files_match:
+                          avdfm_o90zo4w058qm:
+                              path: \.php$
+                              sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                              custom_fragment: ''
+                              provider: filesmatch
+                      provider: directory
+        localottnbcunicom:
+              servername: local.ott.nbcuni.com
+              serveraliases:
+                  - local.ott.nbcd.nbcuni.com
+              docroot: /var/www/html/ott/docroot
+              port: '80'
+              setenv:
+                  - 'APP_ENV dev'
+                  - 'AH_SITE_ENVIRONMENT local'
+              custom_fragment: ''
+              ssl: '0'
+              ssl_cert: ''
+              ssl_key: ''
+              ssl_chain: ''
+              ssl_certs_dir: ''
+              ssl_protocol: ''
+              ssl_cipher: ''
+              directories:
+                  avd_p7m69gd1qe8d:
+                      path: /var/www/html/ott/docroot
                       options:
                           - Indexes
                           - FollowSymlinks

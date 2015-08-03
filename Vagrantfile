@@ -15,3 +15,8 @@ data = configValues['vagrantfile']
 Vagrant.require_version '>= 1.6.0'
 
 eval File.read("#{dir}/puphpet/vagrant/Vagrantfile-#{data['target']}")
+
+Vagrant.configure("2") do |config|
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+  config.ssh.forward_agent = true
+end

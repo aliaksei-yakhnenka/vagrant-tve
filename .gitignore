@@ -1,2 +1,4 @@
 share
-.vagrant
+.var_www
+.var_db_dumps
+/.project
