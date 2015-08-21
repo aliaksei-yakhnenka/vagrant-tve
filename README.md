@@ -2,10 +2,14 @@
 Vagrant configuration for TVE developers
 Based on PuPHPet (https://puphpet.com)
 
+## Pre-requisites
+- Install vagrant
+- Install virtualbox
+
 ## Usage
 - clone repo
 - run `vagrant up`
-- use `hosts` folder for your sites
+- use `hosts` synced folder for your sites
 - use `local.vagrant/adminer` for adminer
 - use port 10000 for xdebug
 
