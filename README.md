@@ -7,6 +7,7 @@ Based on PuPHPet (https://puphpet.com)
 - run `vagrant up`
 - use `hosts` folder for your sites
 - use `local.vagrant/adminer` for adminer
+- use port 10000 for xdebug
 
 ## Known issues
 ### SSH connection fails on `vagrant up`
