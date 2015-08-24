@@ -10,7 +10,7 @@ Based on PuPHPet (https://puphpet.com)
 - clone repo
 - run `vagrant up`
 - use `hosts` synced folder for your sites
-- use `local.vagrant/adminer` for adminer
+- use `local.vagrant/adminer` for adminer (user: root, pass: root)
 - use port 10000 for xdebug
 
 ## Known issues
